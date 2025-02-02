@@ -91,7 +91,7 @@ function handle(word){
 // Routes
 app.get("/", async (req, res) => {
     try{
-        const filePath = "/Users/vikramadityasharma/Downloads/words.txt";
+        const filePath = "./public/words.txt";
         const fileData = await fs.readFile(filePath, 'utf-8');
         const dataWords = fileData.split('\n');
         test = dataWords[generateDailyNumber()]
@@ -116,7 +116,7 @@ app.post("/api/word",async (req, res) => {
     }
 
     try {
-        const filePath = "/Users/vikramadityasharma/Downloads/words.txt";
+        const filePath = "./public/words.txt";
         const fileData = await fs.readFile(filePath, 'utf-8');
         const dataWords = fileData.split('\n');
 
