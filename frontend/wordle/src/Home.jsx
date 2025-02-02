@@ -123,7 +123,19 @@ function Home(){
             handleLetter(event.key)
           
         };
-    
+        fetch("http://localhost:3000/", {
+            method: "GET",
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(!data.success){
+                alert(data.message)
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred. Please try again.");
+        });
         
         window.addEventListener("keydown", handleKeyDown);
     
