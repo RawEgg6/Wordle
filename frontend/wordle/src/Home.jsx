@@ -155,7 +155,7 @@ function Home(){
             </div>
             )}
         <div className={styles.wordArea} >
-            {Array(5) 
+            {Array(6) 
                 .fill("")
                 .map((_, rowIndex) => (
                 <div className={styles.wordRow} key={rowIndex}>
