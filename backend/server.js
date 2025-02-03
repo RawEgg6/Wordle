@@ -89,23 +89,7 @@ function handle(word){
 }
 
 // Routes
-app.get("/", async (req, res) => {
-    try{
-        const filePath = "./public/words.txt";
-        const fileData = await fs.readFile(filePath, 'utf-8');
-        const dataWords = fileData.split('\n');
-        test = dataWords[generateDailyNumber()]
-        
 
-        
-        console.log(test)
-
-        return res.status(200).json({success: true, message: "Word here"})
-    } catch(err){
-        console.error('Error reading file:', err);
-        return res.status(500).json({ success: false, message: "Internal server error" });
-    }
-});
 
 app.post("/api/word",async (req, res) => {
     const {word} = req.body
@@ -121,6 +105,8 @@ app.post("/api/word",async (req, res) => {
         const dataWords = fileData.split('\n');
 
         let position = {};
+        test = dataWords[generateDailyNumber()]
+        console.log(test)
         
 
         dataWords.forEach((dataWord) => {

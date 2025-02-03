@@ -10,7 +10,7 @@ function Home(){
     let currentIndex = 0
     const [notification, setNotification] = useState(null);
     const test = () => {
-        console.log(keyboardRefs)
+        console.log(currentIndex)
     }
 
     const rows = [
@@ -25,6 +25,8 @@ function Home(){
         return;
       }
 
+    //This function handles input when key/keybutton is pressed
+    //This took so long lmao
     function handleLetter(key){
         console.log(currentIndex, key)
 
@@ -41,7 +43,6 @@ function Home(){
         else if(key == "Backspace" && currentIndex - 1 >= thresholdValueLower){
         
             inputRefs.current[--currentIndex].innerHTML = ""
-            console.log("here 22")
             
         }
 
@@ -51,9 +52,9 @@ function Home(){
             return;
         }
     }
-    //Changes to make 
-    //  1. make the wordle handle double letters
-    //  2. make the keyboard light up
+    
+    //This funtion handles the css when we submit a word
+    //shapes and colors make me go crazy
     function handleSubmission(answer) { 
         let count = 0;
 
@@ -81,7 +82,7 @@ function Home(){
         }
         if(count == 5){
             showNotification("Word found", "success");
-            currentIndex = -1
+            
         }
 
         else{
@@ -93,7 +94,7 @@ function Home(){
         return;
     }
 
-
+    //This sends a request to backend to check if a word is valid and returns a position array
     async function handleWord(word) {
         try{
             const responce =await fetch("http://localhost:3000/api/word", {
@@ -123,27 +124,16 @@ function Home(){
             handleLetter(event.key)
           
         };
-        fetch("http://localhost:3000/", {
-            method: "GET",
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(!data.success){
-                alert(data.message)
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("An error occurred. Please try again.");
-        });
+        console.log("here" + currentIndex)
         
         window.addEventListener("keydown", handleKeyDown);
-    
+
         return () => {
-          window.removeEventListener("keydown", handleKeyDown);
+            window.removeEventListener("keydown", handleKeyDown);
         };
       }, []);
-
+      
+    
     return(
         <div>
         <header className={styles.header}>
