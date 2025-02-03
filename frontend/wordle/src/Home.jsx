@@ -7,7 +7,7 @@ function Home(){
     const keyboardRefs = useRef({});
     let thresholdValueLower = 0
     let thresholdValueUpper = 4
-    let currentIndex = 0
+    let currentIndex;
     const [notification, setNotification] = useState(null);
     const test = () => {
         console.log(currentIndex)
@@ -124,6 +124,7 @@ function Home(){
             handleLetter(event.key)
           
         };
+        currentIndex = 0;
         console.log("here" + currentIndex)
         
         window.addEventListener("keydown", handleKeyDown);

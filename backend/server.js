@@ -105,7 +105,7 @@ app.post("/api/word",async (req, res) => {
         const dataWords = fileData.split('\n');
 
         let position = {};
-        test = dataWords[generateDailyNumber()]
+        test = dataWords[generateDailyNumber()] //remove this line and put test as your word here or any global declaration
         console.log(test)
         
 
