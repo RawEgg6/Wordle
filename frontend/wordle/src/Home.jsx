@@ -9,9 +9,7 @@ function Home(){
     let thresholdValueUpper = 4
     let currentIndex;
     const [notification, setNotification] = useState(null);
-    const test = () => {
-        console.log(currentIndex)
-    }
+    
 
     const rows = [
         "qwertyuiop", // First row
@@ -28,14 +26,14 @@ function Home(){
     //This function handles input when key/keybutton is pressed
     //This took so long lmao
     function handleLetter(key){
-        console.log(currentIndex, key)
+        
 
         if(key == "Enter" && currentIndex - 1 == thresholdValueUpper){
             let word = ""
             for(let i = thresholdValueLower ; i <= thresholdValueUpper; i++){
                 word += inputRefs.current[i].innerHTML
             }
-            console.log(word)
+            
             handleWord(word)
             return;
         }
@@ -195,7 +193,7 @@ function Home(){
             ))}
             </div>
         </div>
-        <button onClick={test}>Test</button>
+        
         </div>
     )
 }
