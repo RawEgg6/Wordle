@@ -8,6 +8,16 @@ import { promises as fs } from "fs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+let wordsList;
+try {
+    const filePath = join(__dirname, 'public', 'words.txt');
+    wordsList = readFileSync(filePath, 'utf-8').split('\n').map(word => word.trim());
+    console.log('Words loaded successfully:', wordsList.length, 'words');
+} catch (err) {
+    console.error('Error reading words file:', err);
+    wordsList = [];
+}
+
 let test = "outer";
 
 // Initialize Express app
@@ -87,55 +97,81 @@ function handle(word) {
 
 // Routes
 app.get("/", (req, res) => {
-    res.send("API is running!");
+    try {
+        res.status(200).json({ 
+            status: "success", 
+            message: "Wordle API is running!",
+            endpoints: {
+                test: "/api/test",
+                word: "/api/word (POST)"
+            }
+        });
+    } catch (error) {
+        console.error('Root route error:', error);
+        res.status(500).json({ status: "error", message: error.message });
+    }
 });
 
 app.get("/api/test", (req, res) => {
-    res.json({ message: "Test endpoint working" });
+    try {
+        res.status(200).json({ 
+            status: "success",
+            message: "Test endpoint working",
+            wordsLoaded: wordsList.length
+        });
+    } catch (error) {
+        console.error('Test route error:', error);
+        res.status(500).json({ status: "error", message: error.message });
+    }
 });
 
 app.post("/api/word", async (req, res) => {
-    const { word } = req.body;
-    let isValid = false;
-    
-    if (!word) {
-        return res.status(400).json({ success: false, message: "Missing fields" });
-    }
-
     try {
-        const filePath = join(__dirname, 'public', 'words.txt');
-        const fileData = await fs.readFile(filePath, 'utf-8');
-        const dataWords = fileData.split('\n');
+        const { word } = req.body;
+        
+        if (!word) {
+            return res.status(400).json({ 
+                status: "error", 
+                message: "Missing word in request body" 
+            });
+        }
 
-        let position = {};
-        test = dataWords[generateDailyNumber()];
-        console.log(test);
+        test = wordsList[generateDailyNumber()];
+        console.log('Current test word:', test);
 
-        dataWords.forEach((dataWord) => {
-            if (word === dataWord.trim()) { 
-                isValid = true;
-                position = handle(word);
-            }
+        const isValid = wordsList.includes(word.trim());
+        const position = isValid ? handle(word) : {};
+
+        return res.status(200).json({
+            status: "success",
+            message: "Word processed",
+            wordFound: isValid,
+            answer: position
         });
-
-        return res.status(200).json({ 
-            success: true, 
-            message: "Word submitted", 
-            wordFound: isValid, 
-            answer: position 
+    } catch (error) {
+        console.error('Word route error:', error);
+        return res.status(500).json({ 
+            status: "error", 
+            message: error.message 
         });
-    } catch (err) {
-        console.error('Error reading file:', err);
-        return res.status(500).json({ success: false, message: "Internal server error" });
     }
 });
 
-// Only start the server if we're not in a Vercel environment
-if (process.env.NODE_ENV !== 'production') {
-    const port = process.env.PORT || 3000;
-    app.listen(port, () => {
-        console.log(`Server is running on port ${port}`);
+// Error handling for undefined routes
+app.use((req, res) => {
+    res.status(404).json({ 
+        status: "error",
+        message: `Route ${req.originalUrl} not found`
     });
-}
+});
+
+// Error handling middleware
+app.use((error, req, res, next) => {
+    console.error('Global error:', error);
+    res.status(500).json({ 
+        status: "error",
+        message: error.message 
+    });
+});
 
 export default app;
