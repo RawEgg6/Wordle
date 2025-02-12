@@ -2,7 +2,7 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import fs from "fs"
+import fs from "fs/promises"
 
 
 
