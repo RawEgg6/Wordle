@@ -9,6 +9,7 @@
     "vercel-build": "npm install"
 
   },
+  "type": "module",
   "author": "Vikramaditya Sharma",
   "license": "ISC",
   "dependencies": {
