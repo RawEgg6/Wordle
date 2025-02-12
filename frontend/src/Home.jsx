@@ -95,7 +95,7 @@ function Home(){
     //This sends a request to backend to check if a word is valid and returns a position array
     async function handleWord(word) {
         try{
-            const responce =await fetch("http://localhost:3000/api/word", {
+            const responce = await fetch( `${import.meta.env.VITE_REACT_BACKEND_BASEURL}/api/word`, {
                 method: "POST",
                 headers: {"Content-Type" : "application/json"},
                 body: JSON.stringify({word})
