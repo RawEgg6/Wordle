@@ -2,6 +2,7 @@
   "name": "wordle_backend",
   "version": "1.0.0",
   "description": "backend to my wordle",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +10,7 @@
     "vercel-build": "npm install"
 
   },
-  "type": "module",
+
   "author": "Vikramaditya Sharma",
   "license": "ISC",
   "dependencies": {
