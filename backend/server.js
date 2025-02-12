@@ -1,8 +1,10 @@
 // Imports
-const express = require("express");
-const cors = require("cors");
-const morgan = require("morgan")
-const fs = require('fs').promises;
+import express from "express";
+import cors from "cors";
+import morgan from "morgan";
+import fs from "fs"
+
+
 
 let test = "outer"
 
@@ -89,7 +91,13 @@ function handle(word){
 }
 
 // Routes
+app.get("/", (req, res) => {
+    res.send("API is running!");
+  });
 
+app.get("/api/test", (req, res) => {
+    res.json({ message: "Test endpoint working" });
+  });
 
 app.post("/api/word",async (req, res) => {
     const {word} = req.body
@@ -130,3 +138,5 @@ app.post("/api/word",async (req, res) => {
 app.listen(3000, () => {
     console.log("Listening on port 3000");
 });
+
+export default app
